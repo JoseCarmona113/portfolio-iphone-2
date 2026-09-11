@@ -1,0 +1,125 @@
+
+
+@media (max-width:500px){
+  .tictac-container{
+    width: 80%;
+    left: 4%;
+    top: 8%;
+  }
+}
+.tictac-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: absolute;
+  top: 200px;
+  right: 100px;
+  width: 350px;
+  height: 450px;
+  border: solid;
+  border-top: solid 3px #f0f0f0;
+  border-left: solid 3px #f0f0f0;
+  background-color: #c0c0c0;
+  display: none;
+}
+  
+  #gameboard{
+    width: 86%;
+    height: 300px;
+    background-color: darkblue;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border: solid 1px black ;
+  }
+  
+  .square{
+    width: 100px;
+    height: 100px;
+    border: solid 2px rgb(222, 221, 221);
+    border-top: solid 3px #959595;
+    border-left: solid 3px #747474;
+    background-color: #c0c0c0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+ 
+  .tictac-header {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 0%;
+    justify-content: flex-start;
+    align-items: center;
+    width: 99.60%;
+    height: 25px;
+    background-color: #394dcd;
+    color: white;
+    cursor: all-scroll;
+  }
+  
+  
+  .square:active{
+    background-color: rgb(124, 123, 123);
+  border: #f0f0f0 solid 2px;
+  border-top: solid 2px rgb(16, 16, 16);
+  border-left: solid 2px rgb(16, 16, 16);
+
+
+  }
+  
+  .circle{
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    border: 25px solid green;
+    border-top: 25px solid gray;
+    box-sizing: border-box;
+    box-shadow:  0px 0px 5px 1px;
+   
+  }
+  
+  
+  @keyframes rotation{
+    0%{
+        transform: rotate(0deg);
+    }
+  
+    100%{
+        transform: rotate(360deg);
+    }
+  }
+  
+  
+  .x{
+    height: 50px;
+    width: 50px;
+    position: relative;
+    transform: rotate(45deg);
+  }
+  
+  .x:before, .x:after{
+    content: "";
+    position: absolute;
+    background-color: red;
+  }
+  
+  .x:before{
+    left: 50%;
+    width: 30%;
+    margin-left: -15%;
+    height: 100%;   
+  }
+  
+  .x:after{
+    top: 50%;
+    height: 30%;
+    margin-top: -15%;
+    width: 100%;
+  }

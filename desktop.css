@@ -1,0 +1,122 @@
+/* Usability fixes preserving the original Windows 95 theme. */
+.desktop-window .header, .desktop-window .mp3-header, .desktop-window .tictac-header {
+  box-sizing: border-box; padding-right: 72px;
+}
+.desktop-window .minimize, .desktop-window .exitbutton {
+  box-sizing: border-box; top: 3px; width: 26px !important; height: 25px;
+  margin: 0; font: bold 18px/1 Arial, sans-serif; display: flex;
+  justify-content: center; align-items: center; color: black;
+}
+.desktop-window .minimize { right: 34px !important; }
+.desktop-window .exitbutton { right: 4px; }
+#taskbar-icon button[aria-pressed="true"] { box-shadow: inset 1px 1px #555; background-color: #ddd; }
+#player {
+  width: 470px; height: auto !important; min-height: 0; top: 12%; left: 22%;
+  border: 2px solid; border-color: white #404040 #404040 white;
+  background: #c0c0c0; color: #000; padding: 2px;
+  font: 1rem/1.3 Arial, sans-serif; overflow: auto;
+}
+#player .mp3-header { background: #000080; height: 32px; width: 100%; gap: 6px; padding-left: 4px; }
+#player .mp3-header p { color: white; font: bold 1rem Arial, sans-serif; margin: 0; }
+.media-menu { display: flex; padding: 3px 0; border-bottom: 1px solid #808080; }
+.media-menu details { position: relative; }
+.media-menu summary { list-style: none; padding: 5px 9px; cursor: pointer; font-size: .875rem; }
+.media-menu summary::-webkit-details-marker { display: none; }
+.media-menu details[open] summary { background: #000080; color: white; }
+.media-popup { position: absolute; left: 0; top: 100%; z-index: 5; background: #c0c0c0; color: #000; width: 160px; padding: 6px; border: 2px outset #eee; font-size: .875rem; }
+.media-menu details:last-child .media-popup { left: auto; right: 0; }
+.media-popup button { display: block; width: 100%; text-align: left; border: 0; background: transparent; padding: 6px; }
+.media-popup button:hover { background: #000080; color: white; }
+.media-display { margin: 8px; border: 2px inset #eee; background: black; aspect-ratio: 16 / 9; }
+#visualizer { display: block; position: static; width: 100%; height: 100%; object-fit: contain; }
+.media-readout { margin: 8px; padding: 5px; border: 2px inset #eee; display: flex; justify-content: space-between; font: .875rem monospace; }
+.media-transport { display: flex; align-items: center; gap: 5px; margin: 8px; }
+.media-transport button, .media-preview button { border: 2px outset #eee; background: #c0c0c0; color: black; padding: 5px 10px; min-height: 32px; }
+.media-transport button:active, .media-preview button[aria-pressed="true"] { border-style: inset; }
+.media-transport label { margin-left: auto; font-size: .875rem; }
+#player-volume { width: 90px; min-width: 40px; accent-color: #808080; }
+.media-preview { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 8px; font-size: .875rem; }
+#player .thirddiv { position: static; height: auto; min-height: 32px; width: auto; margin: 4px; box-shadow: none; border: 2px inset #eee; background: transparent; }
+.dark-theme #player { background: #303038; color: white; }
+@media (max-width: 600px) { #player-volume { width: 65px; } .media-transport { gap: 3px; } }
+body, .desktop-window, .taskbar, .sub-head, .thirddiv, .clock,
+button, input, textarea, #dropdown, #accesories, .photo-inside-container {
+  transition: background-color .4s ease, color .4s ease, border-color .4s ease;
+}
+#main .icondiv { touch-action: none; user-select: none; cursor: grab; z-index: 1; }
+#main .icondiv img { pointer-events: none; }
+#main .icon-dragging { cursor: grabbing; outline: 1px dashed white; z-index: 9; }
+#gameboard .circle {
+  width: 52%; height: auto; aspect-ratio: 1; border: 7px solid #006b54;
+  border-radius: 50%; box-shadow: none; background: transparent;
+}
+#gameboard .x { width: 55%; height: auto; aspect-ratio: 1; transform: rotate(45deg); }
+#gameboard .x::before, #gameboard .x::after { background: #ac173f; border-radius: 2px; }
+#gameboard .x::before { width: 7px; margin-left: -3.5px; }
+#gameboard .x::after { height: 7px; margin-top: -3.5px; }
+.dark-theme #gameboard .square { background-color: #303038; border-color: #666675; }
+.dark-theme #gameboard .circle { border-color: #50dfb2; }
+.dark-theme #gameboard .x::before, .dark-theme #gameboard .x::after { background-color: #ff7a98; }
+.dark-theme .sub-head, .dark-theme .thirddiv, .dark-theme .clock,
+.dark-theme #dropdown, .dark-theme #accesories { background-color: #303038; color: white; }
+.confetti-layer { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 100010; }
+.confetti-piece { position: absolute; top: -20px; width: 8px; height: 14px; animation: confetti-drop 3s ease-in both; }
+@keyframes confetti-drop {
+  0% { transform: translate3d(0, -20px, 0) rotate(0); opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translate3d(var(--drift), calc(100dvh + 50px), 0) rotate(var(--spin)); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+  .confetti-layer { display: none; }
+}
+body { margin: 0; font-family: 'VT323', monospace; }
+button, input, textarea { font: inherit; font-size: 1rem; }
+button, [role="button"] { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .5; }
+:focus-visible { outline: 3px dashed #000080 !important; outline-offset: 2px; }
+.desktop-window { position: fixed !important; box-sizing: border-box; max-width: calc(100vw - 16px); max-height: calc(100dvh - 70px); overflow: auto; cursor: default; }
+.header, .mp3-header, .tictac-header { touch-action: none; min-height: 32px; cursor: move; }
+.header img, .tictac-header img { max-height: 25px; max-width: 30px; }
+#bio-container { width: 520px; height: auto; min-height: 260px; }
+.window-content { padding: 20px; font: 1rem/1.6 Arial, sans-serif; overflow-wrap: anywhere; }
+.window-content a { color: #000080; text-decoration: underline; }
+.window-content button { padding: 8px 12px; }
+#emailbox { height: auto; min-height: 360px; }
+#emailbox input { width: 100% !important; box-sizing: border-box; }
+#emailbox textarea { box-sizing: border-box; height: 150px; width: calc(100% - 32px); max-width: none; margin: 12px 16px 0; }
+.input-div h6, .input-div .subject { min-width: 70px; }
+.email-status { margin: 12px 16px; font: .875rem/1.4 Arial, sans-serif; }
+#notepadapp textarea { box-sizing: border-box; width: calc(100% - 20px); max-width: none; height: calc(100% - 90px); margin: 10px; }
+.photo-inside-container { box-sizing: border-box; padding: 16px; }
+.taskbar { position: fixed; bottom: 0; left: 0; width: 100%; min-height: 44px; z-index: 100000; box-sizing: border-box; }
+#taskbar-icon { flex: 1; min-width: 0; width: auto; height: auto; gap: 4px; overflow-x: auto; border: 0; }
+#taskbar-icon button { flex-shrink: 0; padding: 6px; }
+#taskbar-icon button[hidden] { display: none; }
+.clock { flex-shrink: 0; position: static; margin: 4px; }
+#startbutton { flex-shrink: 0; margin-right: 4px; }
+#dropdown, #accesories { position: fixed; z-index: 100001; height: auto; bottom: 48px; }
+#dropdown { min-height: 150px; }
+#accesories { width: 180px; max-width: 45vw; }
+.inside-accesories { flex-wrap: nowrap; }
+#volume-range { position: fixed; z-index: 100002; top: auto; bottom: 115px; }
+.thirddiv { box-sizing: border-box; padding: 8px; font-size: .875rem; }
+.visualizer-note { color: white; font-size: .875rem; padding: 10px; }
+.playbuttons { display: flex; }
+.playbuttons button { min-width: 0; flex: 1; }
+#gameboard { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); width: min(300px, 90%); height: auto; aspect-ratio: 1; }
+#gameboard .square { width: 100%; height: 100%; min-width: 0; padding: 0; }
+#information { text-align: center; margin: 12px 8px; }
+.dark-theme { background: #20252a; color: white; }
+.dark-theme .desktop-window, .dark-theme .taskbar { background: #303038; color: #fff; }
+.dark-theme .window-content a { color: #a9d3ff; }
+.dark-theme input, .dark-theme textarea { background: #202028; color: white !important; }
+.dark-theme .photo-inside-container { background: #202028; }
+@media (max-width: 600px) {
+  .desktop-window { width: calc(100vw - 16px) !important; left: 8px !important; right: auto !important; top: 60px; }
+  #player { height: 330px; }
+  #notepadapp { left: 8px !important; }
+  #bio-container { min-height: 200px; }
+  #accesories { left: 50%; }
+  .clock img { display: none; }
+}

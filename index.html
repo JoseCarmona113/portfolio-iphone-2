@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Jose Carmona | Web Developer</title>
+    <meta name="description" content="Jose Carmona's Windows 95-inspired web development portfolio, projects and contact information.">
+
+    <link rel="stylesheet" href="portfolio.css"  />
+    <link rel="stylesheet"  href="tictac.css"/>
+    <link rel="stylesheet" href="desktop.css" />
+    <link rel="stylesheet" href="iphone.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#018281">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gideon+Roman&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  </head>
+  <body class="body darkmode-container">
+    
+
+    <main id="main">
+      <button id="darkmode" class="darkmode">Darkmode</button>
+
+      <div id="musicicon" class="icondiv music">
+        <img src="icons/music.png" alt="music-icon" />
+        <p>Music</p>
+      </div>
+      <div id="emailicon" class="icondiv email">
+        <img src="icons/email.png" alt="email-icon" />
+        <p>Email</p>
+      </div>
+      <div class="icondiv bin">
+        <img src="icons/recycle_bin_full-4.png" alt="bin-icon" />
+        <p>Recycle bin</p>
+      </div>
+      <div class="icondiv mywork">
+          <img src="icons/mywork.png" alt="folder-icon" />
+        <p>My work</p>
+      </div>
+      <div class="icondiv findme">
+        <img src="icons/findme.png" alt="magnifier-icon" />
+        <p>find me</p>
+      </div>
+    </main>
+    <!--Dropdown-->
+    <div id="dropdown">
+      <div id="content">
+        <h4>Windows 95</h4>
+        <div id="links">
+          <div id="accesories-span">
+            <img src="icons/directory_closed-0.png" />
+        <p><u>A</u>ccesories</p>
+        <span class="arrowselect"></span>
+          </div>
+          <div id="documents-span" >
+            <img src="icons/documents.png" >
+            <p><u>D</u>ocuments</p>
+            <span class="arrowselect"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="accesories" >
+      <div class="inside-accesories" >
+      <span id="photo-span">
+        <img src="icons/directory_movie-2.png" width="25px" />
+        <p><u>P</u>hotos</p>
+      </span>
+      <span id="notepad-span">
+        <img src="icons/notepad-0.png"  />
+        <p><u>N</u>otepad</p>
+      </span>
+      <span id="bio-span">
+        <img src="icons/write_red.png" width="25px" />
+        <p><u>B</u>iography</p>
+      </span>
+      <span id="tictac-span">
+        <img src="icons/joystick-2.png" width="25px" />
+        <p><u>T</u>ic-tac-toe</p>
+      </span>
+      </div>
+    </div>
+    
+
+    <!--TASK BAR-->
+    <div class="taskbar darkmode-container">
+      
+      <!--Start button-->
+      <button id="startbutton">
+        <img
+          class="startbuttonicon"
+          src="icons/startbutton.png"
+          width="21px"
+        />Start
+      </button>
+      <div id="taskbar-icon" >
+        <img src="icons/email.png" width="20px">
+      </div>
+      <!--Container for CLOCK AND SPEAKER ICON-->
+      <div class="clock">
+        <img id="speaker" src="icons/speaker.png" />
+        <h5 id="current-time">11:30pm</h5>
+      </div>
+    </div>
+    <!--END OF TASK BAR-->
+
+    <!--VOLUME RANGE-->
+    <input id="volume-range" min="0" max="100" value="10" type="range" />
+    <!--RADIO PLAYER-->
+    <audio id="audio-player" >
+      <source
+        src="https://ice5.securenetsystems.net/WHOL?playSessionID=85E84827-008B-EA0B-D843CDF29684F211"
+        type="audio/mpeg"
+      />
+    </audio>
+
+    <!--mp3 player-->
+    <div class="container darkmode-container" id="player">
+      <div class="mp3-header">
+        <img width="20" src="icons/wm-4.png" alt="" />
+        <p>Media Player</p>
+        <button id="player-exitbutton" class="exitbutton" type="button">×</button>
+      </div>
+      <nav class="media-menu" aria-label="Media Player menu">
+        <details><summary><u>F</u>ile</summary><div class="media-popup"><button id="media-exit" type="button">Exit</button></div></details>
+        <details><summary><u>C</u>ontrol</summary><div class="media-popup"><button data-player-action="play">Play</button><button data-player-action="pause">Pause</button><button data-player-action="stop">Stop</button></div></details>
+        <details><summary><u>D</u>evice</summary><div class="media-popup">Live Internet radio</div></details>
+        <details><summary><u>H</u>elp</summary><div class="media-popup">Play connects to live radio. Preview visualizer plays the silent video loop. Minimize keeps music playing.</div></details>
+      </nav>
+      <div class="media-display">
+        <video id="visualizer" src="visualizer-loop.mp4" loop muted playsinline preload="metadata" aria-label="Looping music visualizer"></video>
+      </div>
+      <div class="media-readout">
+        <span>Position: <span id="minutes">00</span>:<span id="seconds">00</span>.<span id="miliseconds">00</span></span>
+        <span>Live</span>
+      </div>
+      <div class="media-transport">
+        <button id="play-button" type="button" title="Play radio">▶</button>
+        <button id="pause-button" type="button" title="Pause radio">Ⅱ</button>
+        <button id="stop-button" type="button" title="Stop radio">■</button>
+        <label for="player-volume">Volume</label>
+        <input id="player-volume" type="range" min="0" max="100" value="10" />
+      </div>
+      <div class="media-preview">
+        <button id="preview-visualizer" type="button" aria-pressed="false">Preview visualizer</button>
+        <span id="visualizer-hint">Silent video loop</span>
+      </div>
+      <div class="thirddiv"></div>
+    </div>
+
+    <!--Email Sender-->
+    <div id="emailbox">
+      <div class="header">
+        <img src="icons/envelope_open_sheet-0.png" />
+        <h5>New Message</h5>
+        <div class="minimize">_</div>
+        <div id="email-exitbutton" class="exitbutton" title="Close">
+          x
+        </div>
+      </div>
+      <hr />
+      <div class="sendbutton-container">
+        <button title="Send" id="sendbutton">
+          <img src="icons/envelope_closed-1.png" />
+        </button>
+      </div>
+      <hr />
+      <!--This is the container for all the inputs-->
+      <div class="input-container">
+        <!--This is a container for each input-->
+        <div class="input-div">
+          <h6>From...</h6>
+          <input
+            type="email"
+            id="email"
+            placeholder="email"
+            style="width: 450px; height: 30px"
+          />
+        </div>
+      
+        <div class="input-div">
+          <span class="subject">Subject</span>
+          <input
+            type="text"
+            id="subjet"
+            placeholder="subject"
+            style="width: 450px; height: 30px"
+          />
+        </div>
+      </div>
+      <textarea
+            class="darkmode-container"
+            type="text"
+            id="message"
+            placeholder="Message"
+          ></textarea>
+    </div>
+
+    <!--NOTEPAD-->
+    <div id="notepadapp" class="darkmode-container">
+      <div class="header">
+        <img src="icons/notepad-0.png" />
+        <h5>Notepad</h5>
+        <div id="notepad-exitbutton" class="exitbutton">x</div>
+      </div>
+      <div class="sub-head">
+        <p><u>F</u>ile</p>
+        <p><u>h</u>elp</p>
+      </div>
+      <textarea class="darkmode-container" readonly>
+        Welcome to my Web Portfolio !
+
+    About Me
+
+Hello there! I'm Jose Carmona, a passionate web developer. I hold a certificate in full-stack Java development, and I'm always excited to explore new technologies and create engaging web experiences.
+
+## Portfolio Overview
+
+### Design Aesthetic
+
+You might notice a nostalgic touch in the design of this portfolio. Despite being born in 1996, I've embraced the iconic Windows 95 aesthetic for a fun and quirky twist. It's a homage to the computing era that laid the foundation for today's technologies.
+
+### Technology Stack
+
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Java, Spring Boot
+- **Other Tools:** Git, GitHub, VS Code
+
+## Projects Showcase
+
+Here are some of the projects that showcase my skills and passion for web development:
+
+1. **Project 1: [tic tac toe game]**
+   - Description: [This is one of the first projects i made in my java certificate course.]
+   - Technologies: [javascript]
+
+
+Feel free to explore these projects to get a glimpse of my coding style and problem-solving approach.
+
+## Work in Progress
+
+Please note that this portfolio is a work in progress. I am continually updating and adding new projects to provide you with a comprehensive view of my skills and capabilities. Your understanding and patience are greatly appreciated.
+
+## Contact Me
+
+I'm always open to new opportunities, collaborations, or just a friendly chat. If you have any questions or would like to connect, you can reach me at:
+
+- **Email:** manuel_andeliz@hotmail.com
+- **LinkedIn:** (https://www.linkedin.com/in/jose-carmona-542a741a7/)
+- **GitHub:** (https://github.com/JoseCarmona113)
+
+Thank you for visiting my portfolio. I hope you enjoy exploring my work as much as I enjoyed creating it!
+
+Best regards,
+[Jose Carmona]
+
+      </textarea>
+    </div>
+
+    <!--BIO CONTAINER-->
+    <div id="bio-container" class="bio-container">
+      <div class="header">
+        <img src="icons/winrep-1.png">
+        <h5>Biography</h5>
+        <div id="bio-exitbutton" class="exitbutton">x</div>
+      </div>
+      <div class="sub-head"></div>
+    </div>
+
+    <!--Photos container-->
+    <div class="photos-container" id="photos-container">
+      <div class="header">
+        <img src="icons/directory_movie-0.png" width="30px">
+        <h5>Photos</h5>
+        <div id="photos-exitbutton" class="exitbutton">x</div>
+      </div>
+      <div class="sub-head"></div>
+        <div class="photo-inside-container">
+            <figure>
+              <img src="icons/mywork.png" >
+              <figcaption>Minolta</figcaption>
+            </figure>
+        </div>
+    </div>
+
+<!--TIC-TAC-TOE GAME-->
+    <div id="tictac-container" class="tictac-container">
+      <div class="tictac-header" >
+        <img src="icons/joystick_alt-0.png" >
+        <h5>tic tac toe</h5>
+        <button id="tictac-exitbutton" class="exitbutton" >x</button>
+      </div>
+      <div class="tic">
+    <div id="gameboard"></div>
+    <div id="information"></div>
+    <button id="restart" type="button">Reset</button>
+    </div>
+    </div>
+
+    <script type="text/javascript" src="desktop.js" ></script>
+    <script type="text/javascript" src="tictac.js"></script>
+    <script src="interactions.js"></script>
+    <script src="iphone.js"></script>
+  </body>
+</html>
