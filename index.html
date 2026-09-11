@@ -114,12 +114,7 @@
     <!--VOLUME RANGE-->
     <input id="volume-range" min="0" max="100" value="10" type="range" />
     <!--RADIO PLAYER-->
-    <audio id="audio-player" >
-      <source
-        src="https://ice5.securenetsystems.net/WHOL?playSessionID=85E84827-008B-EA0B-D843CDF29684F211"
-        type="audio/mpeg"
-      />
-    </audio>
+    <audio id="audio-player" src="music/la-jumpa.mp3" preload="metadata"></audio>
 
     <!--mp3 player-->
     <div class="container darkmode-container" id="player">
@@ -131,24 +126,39 @@
       <nav class="media-menu" aria-label="Media Player menu">
         <details><summary><u>F</u>ile</summary><div class="media-popup"><button id="media-exit" type="button">Exit</button></div></details>
         <details><summary><u>C</u>ontrol</summary><div class="media-popup"><button data-player-action="play">Play</button><button data-player-action="pause">Pause</button><button data-player-action="stop">Stop</button></div></details>
-        <details><summary><u>D</u>evice</summary><div class="media-popup">Live Internet radio</div></details>
-        <details><summary><u>H</u>elp</summary><div class="media-popup">Play connects to live radio. Preview visualizer plays the silent video loop. Minimize keeps music playing.</div></details>
+        <details><summary><u>D</u>evice</summary><div class="media-popup">MP3 playlist / Internet radio</div></details>
+        <details><summary><u>H</u>elp</summary><div class="media-popup">Choose a song and press Play. Next and Previous change songs. Songs advance automatically. Preview visualizer plays the silent video loop. Minimize keeps music playing.</div></details>
       </nav>
+      <label class="song-picker" for="song-select">Song
+        <select id="song-select">
+          <option value="music/la-jumpa.mp3">Arcangel, Bad Bunny — La Jumpa</option>
+          <option value="music/el-tontoron-tonton.mp3">El Alfa ft. Braulio Fogon — El Tontoron Tonton (MewTune Remix)</option>
+          <option value="music/redbull.mp3">Eladio Carrión, Beny JR — REDBULL</option>
+          <option value="music/habla-claro.mp3">Eladio Carrión, Morad — Habla Claro</option>
+          <option value="music/gato-de-noche.mp3">Gato de Noche</option>
+          <option value="music/qepdc.mp3">YOVNGCHIMIN / Ñengo Flow — QEPDC</option>
+          <option value="https://ice5.securenetsystems.net/WHOL?playSessionID=85E84827-008B-EA0B-D843CDF29684F211">Live radio</option>
+        </select>
+      </label>
       <div class="media-display">
         <video id="visualizer" src="visualizer-loop.mp4" loop muted playsinline preload="metadata" aria-label="Looping music visualizer"></video>
       </div>
       <div class="media-readout">
         <span>Position: <span id="minutes">00</span>:<span id="seconds">00</span>.<span id="miliseconds">00</span></span>
-        <span>Live</span>
+        <span id="track-duration">--:--</span>
       </div>
       <div class="media-transport">
-        <button id="play-button" type="button" title="Play radio">▶</button>
-        <button id="pause-button" type="button" title="Pause radio">Ⅱ</button>
-        <button id="stop-button" type="button" title="Stop radio">■</button>
+        <button id="play-button" type="button" title="Play">▶</button>
+        <button id="pause-button" type="button" title="Pause">Ⅱ</button>
+        <button id="stop-button" type="button" title="Stop">■</button>
         <label for="player-volume">Volume</label>
         <input id="player-volume" type="range" min="0" max="100" value="10" />
       </div>
       <div class="media-preview">
+        <div class="track-navigation">
+          <button id="previous-track" type="button">Previous song</button>
+          <button id="next-track" type="button">Next song</button>
+        </div>
         <button id="preview-visualizer" type="button" aria-pressed="false">Preview visualizer</button>
         <span id="visualizer-hint">Silent video loop</span>
       </div>

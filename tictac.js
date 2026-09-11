@@ -79,7 +79,10 @@ function takeTurn(event) {
   const target = event.currentTarget;
   // Checks to see if a valid square is clicked
   if (!restart && checkItem(target, turn)) {
-    newSquare.classList.add(turn);
+    newSquare.classList.add(turn === 'x' ? 'game-mark-x' : 'circle');
+    if (turn === 'x') {
+      newSquare.innerHTML = '<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M12 12 L52 52 M52 12 L12 52" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/></svg>';
+    }
     newSquare.setAttribute('aria-hidden', 'true');
     target.append(newSquare);
     target.setAttribute('aria-label', 'Square ' + (Number(target.id) + 1) + ', ' + turn);

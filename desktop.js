@@ -122,6 +122,9 @@
   const clock = () => { $('current-time').textContent = new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}); };
   clock(); setInterval(clock, 1000);
   const radio = $('audio-player'), status = document.querySelector('.thirddiv');
+  const songSelect = $('song-select');
+  const isLive = () => songSelect.value.startsWith('https:');
+  const trackName = () => songSelect.options[songSelect.selectedIndex].textContent;
   const visualizer = $('visualizer');
   let previewVisualizer = false;
   function playVisualizer() {
@@ -142,7 +145,7 @@
     $(button.dataset.playerAction + '-button').click();
     button.closest('details').open = false;
   }));
-  status.setAttribute('role', 'status'); status.textContent = 'Live radio · stopped';
+  status.setAttribute('role', 'status'); status.textContent = 'Ready · ' + trackName();
   let elapsed = 0, started = null, timer = null;
   let connectionTimer = null, playbackRequested = false, playRequest = 0;
   function clearConnectionTimer() { clearTimeout(connectionTimer); connectionTimer = null; }
@@ -151,14 +154,16 @@
     connectionTimer = setTimeout(() => {
       playbackRequested = false; playRequest++;
       radio.pause(); pauseTimer(); clearConnectionTimer();
-      status.textContent = 'Radio connection timed out. Press Play to retry.';
+      status.textContent = 'Audio loading timed out. Press Play to retry.';
     }, 15000);
   }
   function render() {
-    const ms = elapsed + (started === null ? 0 : performance.now() - started);
+    const ms = isLive() ? elapsed + (started === null ? 0 : performance.now() - started) : (radio.currentTime || 0) * 1000;
     $('minutes').textContent = String(Math.floor(ms / 60000)).padStart(2,'0');
     $('seconds').textContent = String(Math.floor(ms / 1000) % 60).padStart(2,'0');
     $('miliseconds').textContent = String(Math.floor(ms / 10) % 100).padStart(2,'0');
+    const duration = radio.duration;
+    $('track-duration').textContent = isLive() ? 'Live' : Number.isFinite(duration) ? Math.floor(duration / 60) + ':' + String(Math.floor(duration % 60)).padStart(2, '0') : '--:--';
   }
   function pauseTimer() {
     if (!previewVisualizer) pauseVisualizer();
@@ -169,10 +174,11 @@
     previewVisualizer = false; $('preview-visualizer').setAttribute('aria-pressed', 'false');
     $('preview-visualizer').textContent = 'Preview visualizer'; pauseVisualizer(true);
     playbackRequested = false; playRequest++; clearConnectionTimer(); radio.pause(); pauseTimer();
-    elapsed = 0; render(); status.textContent = 'Live radio · stopped';
+    if (!isLive()) radio.currentTime = 0;
+    elapsed = 0; render(); status.textContent = 'Stopped · ' + trackName();
   }
   render(); radio.volume = Number($('volume-range').value) / 100;
-  keyboard($('speaker'), 'Show volume control'); $('volume-range').setAttribute('aria-label', 'Radio volume');
+  keyboard($('speaker'), 'Show volume control'); $('volume-range').setAttribute('aria-label', 'Music volume');
   $('speaker').addEventListener('click', () => { const el = $('volume-range'); el.style.display = el.style.display === 'block' ? 'none' : 'block'; });
   $('volume-range').addEventListener('input', () => { radio.volume = Number($('volume-range').value) / 100; });
   $('player-volume').addEventListener('input', () => {
@@ -180,17 +186,18 @@
     $('volume-range').value = $('player-volume').value;
   });
   $('volume-range').addEventListener('input', () => { $('player-volume').value = $('volume-range').value; });
-  ['play','pause','stop'].forEach(key => $(key + '-button').setAttribute('aria-label', key + ' radio'));
+  ['play','pause','stop'].forEach(key => $(key + '-button').setAttribute('aria-label', key + ' audio'));
   $('play-button').addEventListener('click', async () => {
     if (playbackRequested) return;
     playbackRequested = true;
     const request = ++playRequest;
-    status.textContent = 'Connecting to radio…';
-    radio.load(); connectionDeadline();
+    status.textContent = 'Loading · ' + trackName();
+    if (isLive() || radio.error) radio.load();
+    connectionDeadline();
     try { await radio.play(); } catch (error) {
       if (request !== playRequest) return;
       playbackRequested = false; clearConnectionTimer();
-      status.textContent = 'Radio unavailable. Press Play to retry.';
+      status.textContent = 'Audio unavailable. Press Play to retry.';
     }
   });
   radio.addEventListener('playing', () => {
@@ -198,25 +205,44 @@
     clearConnectionTimer();
     if (started === null) { started = performance.now(); timer = setInterval(render,100); }
     playVisualizer();
-    status.textContent = 'Live radio · playing';
+    status.textContent = 'Playing · ' + trackName();
   });
   radio.addEventListener('pause', pauseTimer);
   radio.addEventListener('waiting', () => {
     pauseTimer();
-    if (playbackRequested && connectionTimer === null) { status.textContent = 'Buffering radio…'; connectionDeadline(); }
+    if (playbackRequested && connectionTimer === null) { status.textContent = 'Buffering audio…'; connectionDeadline(); }
   });
   radio.addEventListener('error', () => {
     if (!playbackRequested) return;
     playbackRequested = false; playRequest++; clearConnectionTimer(); pauseTimer();
-    status.textContent = 'Radio unavailable. Press Play to retry.';
+    status.textContent = 'Audio unavailable. Press Play to retry.';
   });
   $('pause-button').addEventListener('click', () => {
     previewVisualizer = false; $('preview-visualizer').setAttribute('aria-pressed', 'false');
     $('preview-visualizer').textContent = 'Preview visualizer'; pauseVisualizer();
     playbackRequested = false; playRequest++; clearConnectionTimer(); radio.pause();
-    status.textContent = 'Live radio · paused';
+    status.textContent = 'Paused · ' + trackName();
   });
   $('stop-button').addEventListener('click', stopRadio);
+  function chooseTrack(index, autoplay) {
+    stopRadio();
+    songSelect.selectedIndex = index;
+    radio.src = songSelect.value;
+    radio.load();
+    render();
+    status.textContent = 'Ready · ' + trackName();
+    if (autoplay) $('play-button').click();
+  }
+  songSelect.addEventListener('change', () => chooseTrack(songSelect.selectedIndex, playbackRequested));
+  const songCount = songSelect.options.length - 1; // Last choice is live radio.
+  $('next-track').addEventListener('click', () => chooseTrack(isLive() ? 0 : (songSelect.selectedIndex + 1) % songCount, true));
+  $('previous-track').addEventListener('click', () => chooseTrack((Math.min(songSelect.selectedIndex, songCount) - 1 + songCount) % songCount, true));
+  radio.addEventListener('loadedmetadata', render);
+  radio.addEventListener('timeupdate', render);
+  radio.addEventListener('ended', () => {
+    if (isLive()) { stopRadio(); return; }
+    chooseTrack((songSelect.selectedIndex + 1) % songCount, true);
+  });
   document.querySelectorAll('.playbuttons button:not([id]), .disk').forEach(el => {
     el.disabled = true; el.title = 'Not available for live radio'; el.setAttribute('aria-label', el.title);
   });
