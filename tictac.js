@@ -18,6 +18,7 @@ function clearConfetti() {
   confettiLayer = null;
 }
 function celebrateWin() {
+  window.playWinSound?.();
   clearConfetti();
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   confettiLayer = document.createElement('div');
